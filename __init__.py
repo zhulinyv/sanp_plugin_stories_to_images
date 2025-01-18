@@ -17,7 +17,7 @@ def plugin():
         excel_path = gr.Textbox(label="Excel 文件路径")
         images_number = gr.Slider(1, 20, 5, step=1, label="每段 tag 生成图片的数量")
         gr.Markdown("<hr>")
-        sti_negative = gr.Textbox(label="负面提示词", lines=3)
+        sti_negative = gr.Textbox("<negative:默认负面提示词>,", label="负面提示词", lines=3)
         with gr.Row():
             sti_resolution = gr.Dropdown(
                 RESOLUTION,
