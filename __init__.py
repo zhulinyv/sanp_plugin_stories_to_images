@@ -76,6 +76,7 @@ def plugin():
             )
             sti_decrisp = gr.Checkbox(value=env.decrisp, label="decrisp")
         opt_info = gr.Textbox(label="输出信息")
+        gr.Markdown("<hr>")
         gr.Markdown(README)
         open_plugin_directory.click(
             open_folder, inputs=gr.Textbox(Path("./plugins/t2i/sanp_plugin_stories_to_images"), visible=False)
