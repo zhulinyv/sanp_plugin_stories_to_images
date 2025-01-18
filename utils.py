@@ -109,4 +109,5 @@ def generate(
             cell.alignment = alignment
 
     workbook.save(excel_path)
+    logger.success("处理完成!")
     return "处理完成!"
