@@ -77,9 +77,15 @@ def generate(
                 json_for_t2i["parameters"]["sampler"] = sti_sampler
                 json_for_t2i["parameters"]["steps"] = sti_steps
                 if env.model != "nai-diffusion-4-curated-preview":
-                    json_for_t2i["parameters"]["sm"] = sti_sm if sti_sampler != "ddim_v3" else False
-                    json_for_t2i["parameters"]["sm_dyn"] = sti_sm_dyn if sti_sm and sti_sampler != "ddim_v3" else False
-                    json_for_t2i["parameters"]["skip_cfg_above_sigma"] = 19 if sti_variety else None
+                    json_for_t2i["parameters"]["sm"] = (
+                        sti_sm if sti_sampler != "ddim_v3" else False
+                    )
+                    json_for_t2i["parameters"]["sm_dyn"] = (
+                        sti_sm_dyn if sti_sm and sti_sampler != "ddim_v3" else False
+                    )
+                    json_for_t2i["parameters"]["skip_cfg_above_sigma"] = (
+                        19 if sti_variety else None
+                    )
                 json_for_t2i["parameters"]["dynamic_thresholding"] = sti_decrisp
                 if sti_sampler != "ddim_v3":
                     json_for_t2i["parameters"]["noise_schedule"] = sti_noise_schedule
@@ -89,13 +95,23 @@ def generate(
 
                 logger.debug(json_for_t2i)
 
-                saved_path = save_image(generate_image(json_for_t2i), "t2i", seed, "None", "None")
+                saved_path = save_image(
+                    generate_image(json_for_t2i), "t2i", seed, "None", "None"
+                )
 
             image = Image(saved_path)
             w = image.width
             h = image.height
             image.width, image.height = 260, int(260 / w * h)
-            sheet.add_image(image, "{}{}".format(chr(row_num), col_num))
+
+            def number_to_letters(n):
+                result = ""
+                while n >= 0:
+                    result = chr(n % 26 + ord("A")) + result
+                    n = n // 26 - 1
+                return result
+
+            sheet.add_image(image, "{}{}".format(number_to_letters(row_num), col_num))
 
             sleep_for_cool(env.t2i_cool_time - 3, env.t2i_cool_time + 3)
 
