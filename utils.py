@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import date
 
 import openpyxl
 import openpyxl.cell
@@ -8,7 +9,15 @@ from openpyxl.styles import Alignment
 
 from utils.env import env
 from utils.jsondata import json_for_t2i
-from utils.utils import generate_image, logger, return_x64, save_image, sleep_for_cool
+from utils.utils import (
+    file_path2name,
+    generate_image,
+    generate_random_str,
+    logger,
+    return_x64,
+    save_image,
+    sleep_for_cool,
+)
 
 README = """## 使用说明
 
@@ -102,8 +111,31 @@ def generate(
 
                 logger.debug(json_for_t2i)
 
+                if env.save_path == "默认(Default)":
+                    _path = ""
+                elif env.save_path == "日期(Date)":
+                    _path = f"/{date.today()}"
+
+                if not os.path.exists(
+                    path := "./output/t2i{}/{}/{}".format(
+                        _path,
+                        file_path2name(excel_path).split(".")[0],
+                        f"B{col_num}",
+                    )
+                ):
+                    os.makedirs(path)
+
                 saved_path = save_image(
-                    generate_image(json_for_t2i), "t2i", seed, "None", "None"
+                    generate_image(json_for_t2i),
+                    "t2i",
+                    seed,
+                    None,
+                    None,
+                    "{}/{}/{}".format(
+                        file_path2name(excel_path).split(".")[0],
+                        f"B{col_num}",
+                        f"{seed}{generate_random_str(6)}_None_None.png",
+                    ),
                 )
 
                 if saved_path == "寄":
