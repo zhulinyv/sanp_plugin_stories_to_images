@@ -23,13 +23,21 @@ README = """## 使用说明
 """
 
 
+def number_to_letters(n):
+    result = ""
+    while n >= 0:
+        result = chr(n % 26 + ord("A")) + result
+        n = n // 26 - 1
+    return result
+
+
 if not os.path.exists("./plugins/t2i/sanp_plugin_stories_to_images/脚本文件示例.xlsx"):
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.row_dimensions[1].height = 50
     for row in range(2, 999):
         ws.row_dimensions[row].height = 300
-    for col in [f"{chr(letter)}" for letter in range(ord("A"), ord("Z") + 1)]:
+    for col in [number_to_letters(num) for num in range(1000)]:
         ws.column_dimensions[col].width = 40
     ws.append(
         [
@@ -63,10 +71,9 @@ def generate(
     workbook = openpyxl.load_workbook(excel_path)
     sheet = workbook["Sheet"]
     col_num = 2
-    row_num = ord("C")
     positive = sheet[f"B{col_num}"].value
     while positive is not None:
-        row_num = ord("C")
+        row_num = ord("C") - 65
         for _ in range(images_number):
             saved_path = "寄"
             while saved_path == "寄":
@@ -99,17 +106,13 @@ def generate(
                     generate_image(json_for_t2i), "t2i", seed, "None", "None"
                 )
 
+                if saved_path == "寄":
+                    sleep_for_cool(2, 4)
+
             image = Image(saved_path)
             w = image.width
             h = image.height
             image.width, image.height = 260, int(260 / w * h)
-
-            def number_to_letters(n):
-                result = ""
-                while n >= 0:
-                    result = chr(n % 26 + ord("A")) + result
-                    n = n // 26 - 1
-                return result
 
             sheet.add_image(image, "{}{}".format(number_to_letters(row_num), col_num))
 
