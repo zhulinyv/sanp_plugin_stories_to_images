@@ -103,9 +103,9 @@ def generate(
                     json_for_t2i["parameters"]["sm_dyn"] = (
                         sti_sm_dyn if sti_sm and sti_sampler != "ddim_v3" else False
                     )
-                    json_for_t2i["parameters"]["skip_cfg_above_sigma"] = (
-                        19 if sti_variety else None
-                    )
+                json_for_t2i["parameters"]["skip_cfg_above_sigma"] = (
+                    19 if sti_variety else None
+                )
                 json_for_t2i["parameters"]["dynamic_thresholding"] = sti_decrisp
                 if sti_sampler != "ddim_v3":
                     json_for_t2i["parameters"]["noise_schedule"] = sti_noise_schedule
