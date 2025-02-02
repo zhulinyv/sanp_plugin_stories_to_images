@@ -8,7 +8,11 @@ from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment
 
 from utils.env import env
-from utils.jsondata import json_for_t2i
+
+if env.model != "nai-diffusion-4-curated-preview":
+    from utils.jsondata import json_for_t2i
+else:
+    from utils.jsondata import json_for_t2i_v4 as json_for_t2i
 from utils.utils import (
     file_path2name,
     generate_image,
