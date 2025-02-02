@@ -109,6 +109,16 @@ def generate(
                 json_for_t2i["parameters"]["seed"] = seed
                 json_for_t2i["parameters"]["negative_prompt"] = sti_negative
 
+                if env.model == "nai-diffusion-4-curated-preview":
+                    json_for_t2i["parameters"]["use_coords"] = False
+                    json_for_t2i["parameters"]["v4_prompt"]["caption"][
+                        "base_caption"
+                    ] = ""
+                    json_for_t2i["parameters"]["v4_prompt"]["use_coords"] = False
+                    json_for_t2i["parameters"]["v4_negative_prompt"]["caption"][
+                        "base_caption"
+                    ] = ""
+
                 logger.debug(json_for_t2i)
 
                 if env.save_path == "默认(Default)":
