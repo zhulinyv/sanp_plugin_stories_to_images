@@ -73,6 +73,7 @@ def generate(
     sti_width,
     sti_height,
     sti_scale,
+    sti_rescale,
     sti_steps,
     sti_sampler,
     sti_noise_schedule,
@@ -94,6 +95,7 @@ def generate(
                 json_for_t2i["parameters"]["width"] = return_x64(int(sti_width))
                 json_for_t2i["parameters"]["height"] = return_x64(int(sti_height))
                 json_for_t2i["parameters"]["scale"] = sti_scale
+                json_for_t2i["parameters"]["cfg_rescale"] = sti_rescale
                 json_for_t2i["parameters"]["sampler"] = sti_sampler
                 json_for_t2i["parameters"]["steps"] = sti_steps
                 if env.model != "nai-diffusion-4-curated-preview":

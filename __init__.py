@@ -52,6 +52,13 @@ def plugin():
                 step=0.1,
                 label=webui_language["t2i"]["scale"],
             )
+            sti_rescale = gr.Slider(
+                minimum=0,
+                maximum=1,
+                value=env.rescale,
+                step=0.01,
+                label="Prompt Guidance Rescale",
+            )
             sti_steps = gr.Slider(
                 minimum=0,
                 maximum=50,
@@ -121,6 +128,7 @@ def plugin():
                 sti_width,
                 sti_height,
                 sti_scale,
+                sti_rescale,
                 sti_steps,
                 sti_sampler,
                 sti_noise_schedule,
