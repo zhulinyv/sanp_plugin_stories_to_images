@@ -98,7 +98,7 @@ def generate(
                 json_for_t2i["parameters"]["cfg_rescale"] = sti_rescale
                 json_for_t2i["parameters"]["sampler"] = sti_sampler
                 json_for_t2i["parameters"]["steps"] = sti_steps
-                if env.model != "nai-diffusion-4-curated-preview":
+                if "nai-diffusion-4" not in env.model:
                     json_for_t2i["parameters"]["sm"] = (
                         sti_sm if sti_sampler != "ddim_v3" else False
                     )
@@ -115,7 +115,7 @@ def generate(
                 json_for_t2i["parameters"]["seed"] = seed
                 json_for_t2i["parameters"]["negative_prompt"] = sti_negative
 
-                if env.model == "nai-diffusion-4-curated-preview":
+                if "nai-diffusion-4" in env.model:
                     json_for_t2i["parameters"]["use_coords"] = False
                     json_for_t2i["parameters"]["v4_prompt"]["caption"][
                         "base_caption"
