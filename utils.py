@@ -18,6 +18,7 @@ from utils.utils import (
     generate_image,
     generate_random_str,
     logger,
+    return_skip_cfg_above_sigma,
     return_x64,
     save_image,
     sleep_for_cool,
@@ -106,14 +107,7 @@ def generate(
                         sti_sm_dyn if sti_sm and sti_sampler != "ddim_v3" else False
                     )
                 json_for_t2i["parameters"]["skip_cfg_above_sigma"] = (
-                    19.343056794463642
-                    if "nai-diffusion-4" in env.model
-                    and "nai-diffusion-4-5" not in env.model
-                    else (
-                        19
-                        if "nai-diffusion-4-5" not in env.model
-                        else 58 if sti_variety else None
-                    )
+                    return_skip_cfg_above_sigma(sti_variety)
                 )
                 json_for_t2i["parameters"]["dynamic_thresholding"] = sti_decrisp
                 if sti_sampler != "ddim_v3":
